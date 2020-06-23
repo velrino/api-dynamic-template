@@ -1,5 +1,7 @@
-import { initial1592849720357 } from './migrations/1592849720357-initial';
+import { Initial1592868349285 } from './migrations/1592868349285-Initial';
+import { Data1592868349285 } from './migrations/1592868349285-Template-data';
 
 export const Migrations = [
-    initial1592849720357
+    Initial1592868349285,
+    Data1592868349285
 ];
