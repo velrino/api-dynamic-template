@@ -25,6 +25,15 @@ import { CampaignService } from './campaign.service';
             template: {
                 eager: true,
             },
+            pledge: {
+                eager: true,
+                
+            },
+            'pledge.template': {
+                alias: 'pledgeTemplate',
+                eager: true,
+                
+            }
         },
     },
 })

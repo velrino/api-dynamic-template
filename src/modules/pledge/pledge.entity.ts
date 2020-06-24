@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Column, Entity, JoinColumn, Index, OneToMany, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, Index, OneToOne, ManyToOne } from 'typeorm';
 import { IsOptional, IsString, MaxLength } from 'class-validator';
 
 import { BaseEntity } from '../base/base.entity';
@@ -30,7 +30,7 @@ export class PledgeEntity extends BaseEntity {
 
     @ApiProperty({ type: () => TemplateEntity })
     // db
-    @OneToOne(
+    @ManyToOne(
         () => TemplateEntity,
         (template) => template.id,
         { eager: true })
@@ -39,7 +39,7 @@ export class PledgeEntity extends BaseEntity {
 
     @ApiProperty({ type: () => CampaignEntity })
     // db
-    @OneToOne(
+    @ManyToOne(
         () => CampaignEntity,
         (campaign) => campaign.id,
         { eager: true })
