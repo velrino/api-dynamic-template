@@ -6,6 +6,7 @@ import { BaseEntity } from '../base/base.entity';
 import { TemplateEntity } from '../template/template.entity';
 import { UserEntity } from '../user/user.entity';
 import { IsSlug } from '../../decorators/validators.decorator';
+import { CampaignsEntity } from '../campaigns/campaigns.entity';
 
 @Entity({ name: 'profile' })
 export class ProfileEntity extends BaseEntity {
@@ -41,18 +42,6 @@ export class ProfileEntity extends BaseEntity {
     @Column({ nullable: true })
     name: string;
 
-    // TODO: add image
-    // api
-    @ApiProperty()
-    // validations
-    @IsString()
-    @MaxLength(150)
-    @IsOptional()
-    // db
-    @Index()
-    @Column({ nullable: true })
-    title: string;
-
     // api
     @ApiPropertyOptional()
     // validations
@@ -61,6 +50,12 @@ export class ProfileEntity extends BaseEntity {
     // db
     @Column({ nullable: true })
     body: string;
+
+    // api
+    @ApiProperty({ type: () => UserEntity })
+    // db
+    @OneToOne(() => UserEntity, user => user.profile)
+    user: UserEntity;
 
     // api
     @ApiProperty({ type: () => [TemplateEntity] })
@@ -72,8 +67,11 @@ export class ProfileEntity extends BaseEntity {
     templates: TemplateEntity[];
 
     // api
-    @ApiProperty({ type: () => UserEntity })
+    @ApiProperty({ type: () => [CampaignsEntity] })
+    // validations
+    @IsOptional()
+    @IsArray()
     // db
-    @OneToOne(() => UserEntity, user => user.profile)
-    user: UserEntity;
+    @OneToMany(() => CampaignsEntity, campaign => campaign.profile)
+    campaigns: CampaignsEntity[];
 }

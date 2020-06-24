@@ -1,13 +1,7 @@
 export enum TemplateTypeColumnEnum {
-    NONE = 'none',
     CAMPAIGN = 'campaign',
-    FAQ = 'FAQ',
-    HOME = 'home',
+    EMAIL = 'email',
+    FAQ = 'faq',
     PLEDGE = 'pledge',
     PROFILE = 'profile',
-}
-
-export enum TemplateEntityColumnEnum {
-    COMPANY = 'company',
-    USER = 'user',
 }
