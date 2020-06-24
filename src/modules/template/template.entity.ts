@@ -3,25 +3,24 @@ import { Entity, Column, JoinColumn, ManyToOne } from 'typeorm';
 import { IsEnum, IsString } from 'class-validator';
 
 import { BaseEntity } from '../base/base.entity';
-import { CompanyEntity } from '../company/company.entity';
-import { TemplateTypeColumnEnum } from './template.enum';
+import { ProfileEntity } from '../profile/profile.entity';
+import { TemplateEntityColumnEnum, TemplateTypeColumnEnum } from './template.enum';
 
 @Entity({ name: 'template' })
 export class TemplateEntity extends BaseEntity {
     // api
     @ApiProperty({
-        type: () => CompanyEntity,
+        type: () => ProfileEntity,
     })
     // db
     @ManyToOne(
-        () => CompanyEntity,
-        (company) => company.id,
+        () => ProfileEntity,
+        (profile) => profile.id,
         {
-            eager: true,
-        },
-    )
+            eager: true
+        })
     @JoinColumn()
-    company: CompanyEntity;
+    profile: ProfileEntity;
 
     @ApiProperty()
     @Column({ type: 'varchar' })
@@ -43,4 +42,17 @@ export class TemplateEntity extends BaseEntity {
         nullable: false
     })
     type: string;
+
+    @ApiProperty()
+    // validations
+    @IsEnum(TemplateEntityColumnEnum)
+    @IsString()
+    // db
+    @Column({
+        type: 'enum',
+        enum: TemplateEntityColumnEnum,
+        default: TemplateEntityColumnEnum.COMPANY,
+        nullable: false
+    })
+    entity: string;
 }

@@ -27,7 +27,7 @@ import { TemplateService } from './template.service';
         cache: 2000,
         alwaysPaginate: true,
         join: {
-            company: {
+            profile: {
                 eager: true,
             },
         },

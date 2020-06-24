@@ -4,8 +4,8 @@ export class Data1592868349285 implements MigrationInterface {
   name = 'Data1592868349285'
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`INSERT INTO "company" ("id", "created_at", "updated_at", "slug") VALUES ('20842c58-304b-454e-8e16-612526339335', now(), now(), 'hc')`);
-    await queryRunner.query(`INSERT INTO "company" ("id", "created_at", "updated_at", "slug") VALUES ('021b9b03-fa01-4297-aecf-52ca217359f6', now(), now(), 'lorem')`);
+    await queryRunner.query(`INSERT INTO "profile" ("id", "created_at", "updated_at", "slug") VALUES ('20842c58-304b-454e-8e16-612526339335', now(), now(), 'hc')`);
+    await queryRunner.query(`INSERT INTO "profile" ("id", "created_at", "updated_at", "slug") VALUES ('021b9b03-fa01-4297-aecf-52ca217359f6', now(), now(), 'lorem')`);
 
     await queryRunner.query(`INSERT INTO "template" ("id", "created_at", "updated_at", "route", "html", "type", "company_id")
     VALUES ('021b9b03-fa01-4297-aecf-52ca217359f8', now(), now(), 'home', '<nav class="site-header sticky-top py-1">
