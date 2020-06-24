@@ -3,7 +3,7 @@ import { Column, Entity, JoinColumn, Index, OneToMany, OneToOne } from 'typeorm'
 import { IsOptional, IsString, MaxLength } from 'class-validator';
 
 import { BaseEntity } from '../base/base.entity';
-import { CampaignsEntity } from '../campaigns/campaigns.entity';
+import { CampaignEntity } from '../campaign/campaign.entity';
 import { TemplateEntity } from '../template/template.entity';
 
 @Entity({ name: 'pledge' })
@@ -37,12 +37,12 @@ export class PledgeEntity extends BaseEntity {
     @JoinColumn()
     template: TemplateEntity;
 
-    @ApiProperty({ type: () => CampaignsEntity })
+    @ApiProperty({ type: () => CampaignEntity })
     // db
     @OneToOne(
-        () => CampaignsEntity,
+        () => CampaignEntity,
         (campaign) => campaign.id,
         { eager: true })
     @JoinColumn()
-    campaign: CampaignsEntity;
+    campaign: CampaignEntity;
 }

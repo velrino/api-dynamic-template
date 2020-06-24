@@ -3,7 +3,7 @@ import { Entity, Column, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 import { IsArray, IsEnum, IsString, IsOptional } from 'class-validator';
 
 import { BaseEntity } from '../base/base.entity';
-import { CampaignsEntity } from '../campaigns/campaigns.entity';
+import { CampaignEntity } from '../campaign/campaign.entity';
 import { ProfileEntity } from '../profile/profile.entity';
 import { TemplateTypeColumnEnum } from './template.enum';
 
@@ -27,10 +27,10 @@ export class TemplateEntity extends BaseEntity {
     type: string;
 
     // api
-    @ApiProperty({ type: () => CampaignsEntity })
+    @ApiProperty({ type: () => CampaignEntity })
     // db
-    @OneToOne(() => CampaignsEntity, campaign => campaign.template)
-    campaign: CampaignsEntity;
+    @OneToOne(() => CampaignEntity, campaign => campaign.template)
+    campaign: CampaignEntity;
 
     // api
     @ApiProperty({ type: () => ProfileEntity })

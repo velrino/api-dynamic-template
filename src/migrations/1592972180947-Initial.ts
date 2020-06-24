@@ -1,7 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class Initial1592970806936 implements MigrationInterface {
-    name = 'Initial1592970806936'
+export class Initial1592972180947 implements MigrationInterface {
+    name = 'Initial1592972180947'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "users" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "email" character varying(255) NOT NULL DEFAULT 0, "email_validated" boolean NOT NULL DEFAULT false, "password" character varying(255) DEFAULT 0, "profile_id" uuid, CONSTRAINT "UQ_97672ac88f789774dd47f7c8be3" UNIQUE ("email"), CONSTRAINT "REL_23371445bd80cb3e413089551b" UNIQUE ("profile_id"), CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433" PRIMARY KEY ("id"))`);
@@ -14,8 +14,8 @@ export class Initial1592970806936 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE "template" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "html" text NOT NULL, "type" "template_type_enum" NOT NULL DEFAULT 'campaign', CONSTRAINT "PK_fbae2ac36bd9b5e1e793b957b7f" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "pledge" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "name" character varying, "body" character varying, "template_id" uuid, "campaign_id" uuid, CONSTRAINT "REL_97079aed95ee0801b1dfcbbcea" UNIQUE ("template_id"), CONSTRAINT "REL_76ff8eaf9d19710d28a63b3986" UNIQUE ("campaign_id"), CONSTRAINT "PK_45ccbbcda634f9a57e8b9c41fee" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE INDEX "IDX_eac5487e4f5a272c4d874e84e3" ON "pledge" ("name") `);
-        await queryRunner.query(`CREATE TABLE "campaigns" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "slug" character varying, "template_id" uuid, "profile_id" uuid, CONSTRAINT "REL_e7710203c0b031e01de765c25e" UNIQUE ("template_id"), CONSTRAINT "PK_831e3fcd4fc45b4e4c3f57a9ee4" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE UNIQUE INDEX "IDX_a0d1755d181035fa13ffb64307" ON "campaigns" ("slug") `);
+        await queryRunner.query(`CREATE TABLE "campaign" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "slug" character varying, "template_id" uuid, "profile_id" uuid, CONSTRAINT "REL_9448e42b62ffbcf0da2719b5bb" UNIQUE ("template_id"), CONSTRAINT "PK_0ce34d26e7f2eb316a3a592cdc4" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE UNIQUE INDEX "IDX_ee60fb10f0a4594d3ecb1b580f" ON "campaign" ("slug") `);
         await queryRunner.query(`CREATE TYPE "log_log_enum" AS ENUM('none')`);
         await queryRunner.query(`CREATE TYPE "log_type_enum" AS ENUM('create', 'delete', 'get', 'update')`);
         await queryRunner.query(`CREATE TYPE "log_status_enum" AS ENUM('fail', 'start', 'success')`);
@@ -24,14 +24,14 @@ export class Initial1592970806936 implements MigrationInterface {
         await queryRunner.query(`CREATE INDEX "IDX_4f374d703b27856b9d43e79279" ON "log" ("data") `);
         await queryRunner.query(`ALTER TABLE "users" ADD CONSTRAINT "FK_23371445bd80cb3e413089551bf" FOREIGN KEY ("profile_id") REFERENCES "profile"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "pledge" ADD CONSTRAINT "FK_97079aed95ee0801b1dfcbbceac" FOREIGN KEY ("template_id") REFERENCES "template"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "pledge" ADD CONSTRAINT "FK_76ff8eaf9d19710d28a63b39866" FOREIGN KEY ("campaign_id") REFERENCES "campaigns"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "campaigns" ADD CONSTRAINT "FK_e7710203c0b031e01de765c25e7" FOREIGN KEY ("template_id") REFERENCES "template"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "campaigns" ADD CONSTRAINT "FK_ddbab30c6ef9eb267ffa2e5056d" FOREIGN KEY ("profile_id") REFERENCES "profile"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "pledge" ADD CONSTRAINT "FK_76ff8eaf9d19710d28a63b39866" FOREIGN KEY ("campaign_id") REFERENCES "campaign"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "campaign" ADD CONSTRAINT "FK_9448e42b62ffbcf0da2719b5bb7" FOREIGN KEY ("template_id") REFERENCES "template"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "campaign" ADD CONSTRAINT "FK_f23ff96abcb51ce1ccc30f05dc9" FOREIGN KEY ("profile_id") REFERENCES "profile"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`ALTER TABLE "campaigns" DROP CONSTRAINT "FK_ddbab30c6ef9eb267ffa2e5056d"`);
-        await queryRunner.query(`ALTER TABLE "campaigns" DROP CONSTRAINT "FK_e7710203c0b031e01de765c25e7"`);
+        await queryRunner.query(`ALTER TABLE "campaign" DROP CONSTRAINT "FK_f23ff96abcb51ce1ccc30f05dc9"`);
+        await queryRunner.query(`ALTER TABLE "campaign" DROP CONSTRAINT "FK_9448e42b62ffbcf0da2719b5bb7"`);
         await queryRunner.query(`ALTER TABLE "pledge" DROP CONSTRAINT "FK_76ff8eaf9d19710d28a63b39866"`);
         await queryRunner.query(`ALTER TABLE "pledge" DROP CONSTRAINT "FK_97079aed95ee0801b1dfcbbceac"`);
         await queryRunner.query(`ALTER TABLE "users" DROP CONSTRAINT "FK_23371445bd80cb3e413089551bf"`);
@@ -41,8 +41,8 @@ export class Initial1592970806936 implements MigrationInterface {
         await queryRunner.query(`DROP TYPE "log_status_enum"`);
         await queryRunner.query(`DROP TYPE "log_type_enum"`);
         await queryRunner.query(`DROP TYPE "log_log_enum"`);
-        await queryRunner.query(`DROP INDEX "IDX_a0d1755d181035fa13ffb64307"`);
-        await queryRunner.query(`DROP TABLE "campaigns"`);
+        await queryRunner.query(`DROP INDEX "IDX_ee60fb10f0a4594d3ecb1b580f"`);
+        await queryRunner.query(`DROP TABLE "campaign"`);
         await queryRunner.query(`DROP INDEX "IDX_eac5487e4f5a272c4d874e84e3"`);
         await queryRunner.query(`DROP TABLE "pledge"`);
         await queryRunner.query(`DROP TABLE "template"`);

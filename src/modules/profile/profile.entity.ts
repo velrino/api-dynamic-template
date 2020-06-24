@@ -6,7 +6,7 @@ import { BaseEntity } from '../base/base.entity';
 import { TemplateEntity } from '../template/template.entity';
 import { UserEntity } from '../user/user.entity';
 import { IsSlug } from '../../decorators/validators.decorator';
-import { CampaignsEntity } from '../campaigns/campaigns.entity';
+import { CampaignEntity } from '../campaign/campaign.entity';
 
 @Entity({ name: 'profile' })
 export class ProfileEntity extends BaseEntity {
@@ -67,11 +67,11 @@ export class ProfileEntity extends BaseEntity {
     templates: TemplateEntity[];
 
     // api
-    @ApiProperty({ type: () => [CampaignsEntity] })
+    @ApiProperty({ type: () => [CampaignEntity] })
     // validations
     @IsOptional()
     @IsArray()
     // db
-    @OneToMany(() => CampaignsEntity, campaign => campaign.profile)
-    campaigns: CampaignsEntity[];
+    @OneToMany(() => CampaignEntity, campaign => campaign.profile)
+    campaigns: CampaignEntity[];
 }

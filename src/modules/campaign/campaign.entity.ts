@@ -8,8 +8,8 @@ import { ProfileEntity } from '../profile/profile.entity';
 import { PledgeEntity } from '../pledge/pledge.entity';
 import { IsSlug } from '../../decorators/validators.decorator';
 
-@Entity({ name: 'campaigns' })
-export class CampaignsEntity extends BaseEntity {
+@Entity({ name: 'campaign' })
+export class CampaignEntity extends BaseEntity {
     // api
     @ApiProperty()
     // validations
