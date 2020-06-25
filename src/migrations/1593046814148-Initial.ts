@@ -1,7 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class Initial1592975400847 implements MigrationInterface {
-    name = 'Initial1592975400847'
+export class Initial1593046814148 implements MigrationInterface {
+    name = 'Initial1593046814148'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "users" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "email" character varying(255) NOT NULL DEFAULT 0, "email_validated" boolean NOT NULL DEFAULT false, "password" character varying(255) DEFAULT 0, "profile_id" uuid, CONSTRAINT "UQ_97672ac88f789774dd47f7c8be3" UNIQUE ("email"), CONSTRAINT "REL_23371445bd80cb3e413089551b" UNIQUE ("profile_id"), CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433" PRIMARY KEY ("id"))`);
@@ -12,7 +12,7 @@ export class Initial1592975400847 implements MigrationInterface {
         await queryRunner.query(`CREATE INDEX "IDX_0046bf0859cceb5f1744df2a36" ON "profile" ("name") `);
         await queryRunner.query(`CREATE TYPE "template_type_enum" AS ENUM('campaign', 'email', 'faq', 'pledge', 'profile')`);
         await queryRunner.query(`CREATE TABLE "template" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "html" text NOT NULL, "type" "template_type_enum" NOT NULL DEFAULT 'campaign', CONSTRAINT "PK_fbae2ac36bd9b5e1e793b957b7f" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "pledge" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "name" character varying, "body" character varying, "template_id" uuid, "campaign_id" uuid, CONSTRAINT "REL_97079aed95ee0801b1dfcbbcea" UNIQUE ("template_id"), CONSTRAINT "PK_45ccbbcda634f9a57e8b9c41fee" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "pledge" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "name" character varying, "body" character varying, "template_id" uuid, "campaign_id" uuid, CONSTRAINT "PK_45ccbbcda634f9a57e8b9c41fee" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE INDEX "IDX_eac5487e4f5a272c4d874e84e3" ON "pledge" ("name") `);
         await queryRunner.query(`CREATE TABLE "campaign" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "slug" character varying, "template_id" uuid, "profile_id" uuid, CONSTRAINT "REL_9448e42b62ffbcf0da2719b5bb" UNIQUE ("template_id"), CONSTRAINT "PK_0ce34d26e7f2eb316a3a592cdc4" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE UNIQUE INDEX "IDX_ee60fb10f0a4594d3ecb1b580f" ON "campaign" ("slug") `);
