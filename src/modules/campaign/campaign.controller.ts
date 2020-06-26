@@ -23,7 +23,6 @@ import { CampaignService } from './campaign.service';
         alwaysPaginate: true,
         join: {
             template: {
-                allow: ['html'],
                 eager: true,
             },
             pledge: {
@@ -32,7 +31,6 @@ import { CampaignService } from './campaign.service';
             },
             'pledge.template': {
                 alias: 'pledgeTemplate',
-                allow: ['html'],
                 eager: true,
             }
         },

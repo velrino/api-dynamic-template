@@ -14,6 +14,14 @@ export class TemplateEntity extends BaseEntity {
     html: string;
 
     @ApiProperty()
+    @Column({ type: 'text', nullable: true })
+    script: string;
+
+    @ApiProperty()
+    @Column({ type: 'text', nullable: true })
+    css: string;
+
+    @ApiProperty()
     // validations
     @IsEnum(TemplateTypeColumnEnum)
     @IsString()

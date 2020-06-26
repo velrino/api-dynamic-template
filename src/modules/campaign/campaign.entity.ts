@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Entity, Column, Index, JoinColumn, OneToOne, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, Column, Index, JoinColumn, OneToOne, ManyToOne, OneToMany, ManyToMany } from 'typeorm';
 import { IsArray, IsOptional, IsString, MaxLength } from 'class-validator';
 
 import { BaseEntity } from '../base/base.entity';
@@ -23,7 +23,7 @@ export class CampaignEntity extends BaseEntity {
 
     // api
     @ApiProperty({ type: () => TemplateEntity })
-    @OneToOne(() => TemplateEntity,
+    @ManyToOne(() => TemplateEntity,
         template => template.id,
         { eager: true, persistence: true })
     @JoinColumn()
